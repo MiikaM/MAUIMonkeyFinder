@@ -18,7 +18,7 @@ public static class MauiProgram
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
-
-		return builder.Build();
+        builder.Services.AddSingleton<MAUIMonkeyFinder.View.MainPage>();
+        return builder.Build();
 	}
 }
