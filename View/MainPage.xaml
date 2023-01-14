@@ -21,6 +21,9 @@
                     <Grid Padding="10">
                         <Frame HeightRequest="125" Padding="0"
                                Style="{StaticResource CardView}">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer NumberOfTapsRequired="2" CommandParameter="{Binding .}" Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MonkeysViewModel}}, Path=GoToDetailsCommand}"/>
+                            </Frame.GestureRecognizers>
                             <Grid Padding="0"
                                   ColumnDefinitions="125, *">
 
@@ -54,13 +57,14 @@
                             Grid.ColumnSpan="2"/>
 
         <Button Text="Get monkeys"
+                BackgroundColor="{StaticResource DarkBackground}"
                 Command="{Binding GetMonkeysCommand}"
                 IsEnabled="{Binding IsNotBusy}"
                 Grid.Row="1"
                 Margin="8" 
                     />
 
-    
+
 
     </Grid>
 

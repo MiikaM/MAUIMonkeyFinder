@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using MAUIMonkeyFinder.Services;
+using MAUIMonkeyFinder.View;
 namespace MAUIMonkeyFinder.ViewModel;
 
 public partial class MonkeysViewModel : BaseViewModel
@@ -13,18 +14,31 @@ public partial class MonkeysViewModel : BaseViewModel
     }
 
     [RelayCommand]
+    async Task GoToDetailsAsync(Monkey monkey)
+    {
+        if (monkey is null)
+        {
+            return;
+        }
+
+        await Shell.Current.GoToAsync($"{nameof(DetailsPage)}", true, new Dictionary<string, object>
+        {
+            {"Monkey", monkey }
+        });
+    }
+
+    [RelayCommand]
     async Task GetMonkeysAsync()
     {
         if (IsBusy) return;
 
         try
         {
-            IsBusy= true;
+            IsBusy = true;
             var monkeys = await monkeyService.GetMonkeys();
-            if(Monkeys.Count() != 0) Monkeys.Clear();
+            if (Monkeys.Count() != 0) Monkeys.Clear();
 
-            /// Maybe should use batch updates 
-            foreach( var monkey in monkeys)
+            foreach (var monkey in monkeys)
             {
                 Monkeys.Add(monkey);
             }
@@ -37,7 +51,7 @@ public partial class MonkeysViewModel : BaseViewModel
         }
         finally
         {
-            IsBusy= false;
+            IsBusy = false;
         }
     }
 

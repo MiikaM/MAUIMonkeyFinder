@@ -1,7 +1,16 @@
-﻿using MAUIMonkeyFinder.ViewModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace MonkeyFinder.ViewModel;
+namespace MAUIMonkeyFinder.ViewModel;
 
+[QueryProperty(nameof(Monkey), "Monkey")]
 public partial class MonkeyDetailsViewModel : BaseViewModel
 {
+   
+    public MonkeyDetailsViewModel()
+    {
+
+    }
+
+    [ObservableProperty]
+    Monkey monkey; 
 }
