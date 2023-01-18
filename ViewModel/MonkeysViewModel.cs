@@ -8,6 +8,12 @@ namespace MAUIMonkeyFinder.ViewModel;
 public partial class MonkeysViewModel : BaseViewModel
 {
     MonkeyService monkeyService;
+    IConnectivity connectivity;
+    IGeolocation geolocation;
+
+    [ObservableProperty]
+    bool isRefreshing;
+
     public ObservableCollection<Monkey> Monkeys { get; } = new();
     public MonkeysViewModel(MonkeyService monkeyService, IConnectivity connectivity, IGeolocation geolocation)
     {
@@ -16,9 +22,6 @@ public partial class MonkeysViewModel : BaseViewModel
         this.connectivity = connectivity;
         this.geolocation = geolocation;
     }
-
-    IConnectivity connectivity;
-    IGeolocation geolocation;
 
     [RelayCommand]
     async Task GetClosestMonkey()
@@ -100,6 +103,7 @@ public partial class MonkeysViewModel : BaseViewModel
         finally
         {
             IsBusy = false;
+            IsRefreshing = false;
         }
     }
 

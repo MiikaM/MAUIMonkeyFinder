@@ -4,59 +4,76 @@
              xmlns:model="clr-namespace:MAUIMonkeyFinder.Model"
              xmlns:viewmodel="clr-namespace:MAUIMonkeyFinder.ViewModel"
              x:DataType="viewmodel:MonkeysViewModel"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
              x:Class="MAUIMonkeyFinder.View.MainPage"
              Title="{Binding Title}"
+             ios:Page.UseSafeArea="True"
              >
-
+    
     <Grid ColumnDefinitions="*,*"
           ColumnSpacing="5"
           RowDefinitions="*,Auto"
           RowSpacing="0">
-        <CollectionView BackgroundColor="Transparent"
-                        Grid.ColumnSpan="2"
+        <RefreshView Grid.ColumnSpan="2"
+                     IsRefreshing="{Binding IsRefreshing}"
+                     Command="{Binding GetMonkeysCommand}"
+                     >
+            <CollectionView BackgroundColor="Transparent"
                         ItemsSource="{Binding Monkeys}"
                         SelectionMode="None">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="model:Monkey">
-                    <Grid Padding="10">
-                        <Frame HeightRequest="125" Padding="0"
+                <CollectionView.EmptyView>
+                    <StackLayout VerticalOptions="Center"
+                                 HorizontalOptions="Center"
+                                 WidthRequest="200"
+                                 HeightRequest="200">
+                        <Image Source="nodata.png"
+                               VerticalOptions="CenterAndExpand"
+                                 HorizontalOptions="CenterAndExpand"
+                               Aspect="AspectFill"/>
+                    </StackLayout>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Monkey">
+                        <Grid Padding="10">
+                            <Frame HeightRequest="125" Padding="0"
                                Style="{StaticResource CardView}">
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer NumberOfTapsRequired="2" CommandParameter="{Binding .}" Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MonkeysViewModel}}, Path=GoToDetailsCommand}"/>
-                            </Frame.GestureRecognizers>
-                            <Grid Padding="0"
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer NumberOfTapsRequired="2" CommandParameter="{Binding .}" Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MonkeysViewModel}}, Path=GoToDetailsCommand}"/>
+                                </Frame.GestureRecognizers>
+                                <Grid Padding="0"
                                   ColumnDefinitions="125, *">
 
-                                <Image Aspect="AspectFill"
+                                    <Image Aspect="AspectFill"
                                    Source="{Binding Image}"
                                          WidthRequest="125"
                                            HeightRequest="125"
                                        />
-                                <VerticalStackLayout Grid.Column="1"
+                                    <VerticalStackLayout Grid.Column="1"
                                                      Padding="10"
                                                      VerticalOptions="Center">
-                                    <Label Text="{Binding Name}"
+                                        <Label Text="{Binding Name}"
                                            Style="{StaticResource LargeLabel}"/>
-                                    <Label Text="{Binding Location}"
+                                        <Label Text="{Binding Location}"
                                            Style="{StaticResource MediumLabel}"/>
-                                </VerticalStackLayout>
+                                    </VerticalStackLayout>
 
-                            </Grid>
-                        </Frame>
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
+                                </Grid>
+                            </Frame>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
 
-        </CollectionView>
+            </CollectionView>
+        </RefreshView>
         <ActivityIndicator  IsVisible="{Binding IsBusy}"
                             IsRunning="{Binding IsBusy}"
-                            
                             HorizontalOptions="FillAndExpand"
                             VerticalOptions="CenterAndExpand"
                             Grid.RowSpan="2"
                             Grid.ColumnSpan="2"/>
 
         <Button Text="Get monkeys"
+                Style="{StaticResource ButtonOutline}"
                 Command="{Binding GetMonkeysCommand}"
                 IsEnabled="{Binding IsNotBusy}"
                 Grid.Row="1"
