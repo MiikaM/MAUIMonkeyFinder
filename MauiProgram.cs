@@ -1,7 +1,7 @@
 ﻿using MAUIMonkeyFinder.Services;
 using MAUIMonkeyFinder.View;
 using Microsoft.Extensions.Logging;
-using MonkeyFinder.ViewModel;
+using MAUIMonkeyFinder.ViewModel;
 
 namespace MAUIMonkeyFinder;
 
