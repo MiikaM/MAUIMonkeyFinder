@@ -30,6 +30,6 @@
         Shell.NavBarIsVisible="False"
         Title="Monkeys"
         ContentTemplate="{DataTemplate view:MainPage}"
-        Route="MainPage" />
+        Route="MainPage" /> 
 
 </Shell>
